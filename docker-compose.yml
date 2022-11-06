@@ -1,0 +1,6 @@
+services:
+  track-questions:
+    tty: true
+    build: .
+    ports:
+      - "5000:8080"

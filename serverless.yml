@@ -1,0 +1,15 @@
+service: call-plan-tagging
+
+provider:
+  name: aws  # provider
+  region: us-east-1  # aws region
+  memorySize: 8192  # optional, in MB, default is 1024
+  timeout: 30  # optional, in seconds, default is 6
+
+functions:
+  call-plan-tagging:
+    image: 070835681152.dkr.ecr.us-east-1.amazonaws.com/over-quota-call-plan-tagging:latest
+    events:
+      - http:
+          path: '/'
+          method: post

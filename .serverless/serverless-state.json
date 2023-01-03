@@ -171,7 +171,7 @@
             "Type": "AWS::Lambda::Function",
             "Properties": {
               "Code": {
-                "ImageUri": "070835681152.dkr.ecr.us-east-1.amazonaws.com/over-quota-call-plan-tagging@sha256:bb9175ee51ca974427090b2ccfde934ce7cbe40f13b7adf99299c98938500f68"
+                "ImageUri": "070835681152.dkr.ecr.us-east-1.amazonaws.com/over-quota-call-plan-tagging@sha256:38c60e135d817f76e9dc6331bccd30c6f6190a0d811d45dafb749b5959131b9b"
               },
               "PackageType": "Image",
               "FunctionName": "call-plan-tagging-dev-call-plan-tagging",
@@ -188,14 +188,14 @@
               "CallDashplanDashtaggingLogGroup"
             ]
           },
-          "CallDashplanDashtaggingLambdaVersionYlA0xlPzAkMYfLQJg5wzztM7lYO4bKMJqoLysZOAJt4": {
+          "CallDashplanDashtaggingLambdaVersion4c4N8jL6P9nb2HvOiXG8XnbEMx2L5zpIQBVupkWgXjs": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "CallDashplanDashtaggingLambdaFunction"
               },
-              "CodeSha256": "bb9175ee51ca974427090b2ccfde934ce7cbe40f13b7adf99299c98938500f68"
+              "CodeSha256": "38c60e135d817f76e9dc6331bccd30c6f6190a0d811d45dafb749b5959131b9b"
             }
           },
           "ApiGatewayRestApi": {
@@ -259,7 +259,7 @@
               "CallDashplanDashtaggingLambdaPermissionApiGateway"
             ]
           },
-          "ApiGatewayDeployment1667742193324": {
+          "ApiGatewayDeployment1672711170096": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -321,7 +321,7 @@
           "CallDashplanDashtaggingLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "CallDashplanDashtaggingLambdaVersionYlA0xlPzAkMYfLQJg5wzztM7lYO4bKMJqoLysZOAJt4"
+              "Ref": "CallDashplanDashtaggingLambdaVersion4c4N8jL6P9nb2HvOiXG8XnbEMx2L5zpIQBVupkWgXjs"
             },
             "Export": {
               "Name": "sls-call-plan-tagging-dev-CallDashplanDashtaggingLambdaFunctionQualifiedArn"
@@ -457,7 +457,7 @@
         "memory": 8192,
         "timeout": 30,
         "vpc": {},
-        "versionLogicalId": "CallDashplanDashtaggingLambdaVersionYlA0xlPzAkMYfLQJg5wzztM7lYO4bKMJqoLysZOAJt4"
+        "versionLogicalId": "CallDashplanDashtaggingLambdaVersion4c4N8jL6P9nb2HvOiXG8XnbEMx2L5zpIQBVupkWgXjs"
       }
     },
     "configValidationMode": "warn",
@@ -475,7 +475,7 @@
     "isDashboardMonitoringPreconfigured": false
   },
   "package": {
-    "artifactDirectoryName": "serverless/call-plan-tagging/dev/1667742193974-2022-11-06T13:43:13.974Z",
+    "artifactDirectoryName": "serverless/call-plan-tagging/dev/1672711170828-2023-01-03T01:59:30.828Z",
     "artifact": ""
   }
 }

@@ -1,6 +1,5 @@
 import json
-from functools import lru_cache
-from loguru import logger
+from cachetools import cached, LRUCache, TTLCache
 import numpy as np
 from sentence_transformers import SentenceTransformer
 from sentence_transformers.util import cos_sim
@@ -8,12 +7,18 @@ from nltk import sent_tokenize
 import nltk
 nltk.data.path.append('./nltk_data')
 
-@lru_cache
+@cached(cache=TTLCache(maxsize=1024, ttl=3600))
 def get_model(model_name: str) -> SentenceTransformer:
     return SentenceTransformer(model_name)
 
+model = get_model('model/')
+
+@cached(cache=TTLCache(maxsize=1024, ttl=3600))
+def calculate_embeddings(document):
+    tokenized_document = sent_tokenize(document)
+    return model.encode(tokenized_document, convert_to_tensor=True)
+
 def endpoint(event, context):
-    logger.info(event)
     try:
         request = json.loads(event["body"])
         questions = request.get("questions")
@@ -21,17 +26,13 @@ def endpoint(event, context):
         transcript = request.get("transcript")
         assert transcript, f"`transcript` is required"
 
-        sentences = sent_tokenize(transcript)
-        model = get_model('model/')
-
-        base_embeddings_sentences = model.encode(sentences, convert_to_tensor=True)
+        base_embeddings_sentences = calculate_embeddings(transcript)
         base_embeddings = np.mean(np.array(base_embeddings_sentences), axis=0)
 
         vectors = []
         for i, document in enumerate(questions):
             # Encode question sentence vector
-            sentences = sent_tokenize(document)
-            embeddings_sentences = model.encode(sentences, convert_to_tensor=True)
+            embeddings_sentences = calculate_embeddings(document)
             embeddings = np.mean(np.array(embeddings_sentences), axis=0)
             vectors.append(embeddings)
 
@@ -44,10 +45,6 @@ def endpoint(event, context):
             if highest_score < score:
                 highest_score = score
                 highest_score_index = i
-        logger.info('=====================================')
-        logger.info(highest_score)
-        logger.info('T: ' + transcript)
-        logger.info('Q: ' + questions[highest_score_index])
 
         response = {
             "index": highest_score_index,
@@ -65,7 +62,7 @@ def endpoint(event, context):
             "body": json.dumps(response),
         }
     except Exception as e:
-        logger.error(repr(e))
+        print(repr(e))
 
         # https://docs.aws.amazon.com/apigateway/latest/developerguide/handle-errors-in-lambda-integration.html
         return {
